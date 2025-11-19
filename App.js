@@ -8,10 +8,15 @@ export default function App() {
   const handleConnect = () => {
     setStatus("Scanning...");
     BLEService.startScan((device) => {
+      if (!device) {
+        setStatus("Lock not configured. Please update config/lockConfig.js");
+        Alert.alert("Configuration Required", "Please configure your lock MAC address in config/lockConfig.js");
+        return;
+      }
       setStatus("Device found. Connecting...");
       BLEService.connectToLock((connected) => {
         if (connected) setStatus("Connected!");
-        else setStatus("Failed to connect");
+        else setStatus("Failed to connect. Check lock configuration.");
       });
     });
   };
@@ -19,16 +24,26 @@ export default function App() {
   const handleUnlock = () => {
     setStatus("Unlocking...");
     BLEService.unlock((ok) => {
-      setStatus(ok ? "Door unlocked!" : "Unlock failed");
-      Alert.alert(ok ? "Success" : "Failure", ok ? "Door unlocked." : "Unlock failed.");
+      if (ok) {
+        setStatus("Door unlocked!");
+        Alert.alert("Success", "Door unlocked.");
+      } else {
+        setStatus("Unlock failed. Check lock configuration.");
+        Alert.alert("Failure", "Unlock failed. Please configure lock credentials in config/lockConfig.js");
+      }
     });
   };
 
   const handleLock = () => {
     setStatus("Locking...");
     BLEService.lock((ok) => {
-      setStatus(ok ? "Door locked!" : "Lock failed");
-      Alert.alert(ok ? "Success" : "Failure", ok ? "Door locked." : "Lock failed.");
+      if (ok) {
+        setStatus("Door locked!");
+        Alert.alert("Success", "Door locked.");
+      } else {
+        setStatus("Lock failed. Check lock configuration.");
+        Alert.alert("Failure", "Lock failed. Please configure lock credentials in config/lockConfig.js");
+      }
     });
   };
 
