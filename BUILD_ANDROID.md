@@ -68,7 +68,7 @@ Download and install **Java JDK 17** (or JDK 11):
 cd D:\Raza\TTLockApp
 npm install
 ```
-
+----yahan tak kr lia 23/11/25 10:13---
 ### Step 2: Update Android local.properties
 
 Create or update `android/local.properties` with your SDK path:
