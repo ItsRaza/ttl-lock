@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, Button, StyleSheet, Alert } from "react-native";
-import BLEService from "./services/BLEService";
+import BLEService from "./config/services/BLEService";
 
 export default function App() {
   const [status, setStatus] = useState("Not connected");

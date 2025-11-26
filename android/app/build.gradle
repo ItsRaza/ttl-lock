@@ -3,10 +3,7 @@ apply plugin: "com.facebook.react"
 
 import com.android.build.OutputFile
 
-react {
-    /* Autolinking */
-    autolinkLibrariesWithApp()
-}
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 
 def enableProguardInReleaseBuilds = false
 def jscFlavor = 'org.webkit:android-jsc:+'
@@ -15,8 +12,15 @@ android {
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
+    
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     namespace "com.ttlockapp"
+    
+    buildFeatures {
+        buildConfig = true
+    }
+    
     defaultConfig {
         applicationId "com.ttlockapp"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -46,18 +50,23 @@ android {
 
 dependencies {
     implementation("com.facebook.react:react-android")
+    
+    // Hermes is enabled by default in React Native 0.72.4
     implementation("com.facebook.react:hermes-android")
+    
+    // Flipper dependencies (optional - comment out if you don't have Flipper)
+    // debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
+    // debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
+    //     exclude group:'com.squareup.okhttp3', module:'okhttp'
+    // }
+    // debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
+}
 
-    debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
-    debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
-        exclude group:'com.squareup.okhttp3', module:'okhttp'
-    }
-    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
-
-    if (hermesEnabled.toBoolean()) {
-        implementation("com.facebook.react:hermes-android")
-    } else {
-        implementation jscFlavor
+configurations.all {
+    resolutionStrategy {
+        force 'org.jetbrains.kotlin:kotlin-stdlib:1.8.22'
+        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22'
+        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22'
     }
 }
 

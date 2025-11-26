@@ -71,18 +71,29 @@ npm install
 ----yahan tak kr lia 23/11/25 10:13---
 ### Step 2: Update Android local.properties
 
-Create or update `android/local.properties` with your SDK path:
+Create or update `android/local.properties` file and add your SDK path:
+
+**Note:** This is a file edit, not a PowerShell command. Open `android/local.properties` in a text editor and add/update this line:
 
 ```properties
 sdk.dir=C:\\Android\\sdk
 ```
 
+Or if your SDK is in a different location, update the path accordingly (use double backslashes `\\` for Windows paths).
+
 ### Step 3: Build the APK
+
+**Important:** Before building, make sure your environment variables are set. In your PowerShell terminal, run:
+
+```powershell
+$env:ANDROID_HOME = "C:\Android\sdk"
+```
 
 **Option A: Using Gradle Wrapper (Recommended)**
 
 ```powershell
 cd android
+$env:ANDROID_HOME = "C:\Android\sdk"
 .\gradlew.bat assembleDebug
 ```
 

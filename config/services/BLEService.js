@@ -1,5 +1,5 @@
 import TTLock from "react-native-ttlock";
-import lockConfig from "../config/lockConfig";
+import lockConfig from "../lockConfig";
 
 class BLEService {
 
